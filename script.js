@@ -1,0 +1,12 @@
+const loader=document.getElementById('loader');
+const menuBtn=document.getElementById('menuBtn');
+const navLinks=document.getElementById('navLinks');
+window.addEventListener('load',()=>setTimeout(()=>loader.classList.add('done'),900));
+menuBtn?.addEventListener('click',()=>{const open=navLinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open)});
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded','false')}));
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const sections=[...document.querySelectorAll('main section[id]')];
+const links=[...document.querySelectorAll('.nav-links a[href^="#"]')];
+const activeObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+entry.target.id))}}),{rootMargin:'-35% 0px -55%'});
+sections.forEach(s=>activeObserver.observe(s));
